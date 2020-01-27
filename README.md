@@ -1,2 +1,2 @@
 SearchPhoto
-# This application can download image and save image
+# This application can upload an image as well as save your favorite image.
