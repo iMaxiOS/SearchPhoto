@@ -14,6 +14,8 @@
 		AC27DDC823DF540500116805 /* SearchPhotoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC27DDC723DF540500116805 /* SearchPhotoTests.swift */; };
 		AC27DDD323DF540500116805 /* SearchPhotoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC27DDD223DF540500116805 /* SearchPhotoUITests.swift */; };
 		AC27DDE123DF549B00116805 /* MainTabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC27DDE023DF549B00116805 /* MainTabbarController.swift */; };
+		AC27DDE323DF59B900116805 /* PhotosCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC27DDE223DF59B900116805 /* PhotosCollectionViewController.swift */; };
+		AC27DDE523DF5A1300116805 /* LikesCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC27DDE423DF5A1300116805 /* LikesCollectionViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +49,8 @@
 		AC27DDD223DF540500116805 /* SearchPhotoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPhotoUITests.swift; sourceTree = "<group>"; };
 		AC27DDD423DF540500116805 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AC27DDE023DF549B00116805 /* MainTabbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabbarController.swift; sourceTree = "<group>"; };
+		AC27DDE223DF59B900116805 /* PhotosCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosCollectionViewController.swift; sourceTree = "<group>"; };
+		AC27DDE423DF5A1300116805 /* LikesCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikesCollectionViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,7 +103,7 @@
 			children = (
 				AC27DDB023DF540200116805 /* AppDelegate.swift */,
 				AC27DDB223DF540200116805 /* SceneDelegate.swift */,
-				AC27DDE023DF549B00116805 /* MainTabbarController.swift */,
+				AC27DDE623DF5A3F00116805 /* Controllers */,
 				AC27DDB923DF540500116805 /* Assets.xcassets */,
 				AC27DDBB23DF540500116805 /* LaunchScreen.storyboard */,
 				AC27DDBE23DF540500116805 /* Info.plist */,
@@ -123,6 +127,16 @@
 				AC27DDD423DF540500116805 /* Info.plist */,
 			);
 			path = SearchPhotoUITests;
+			sourceTree = "<group>";
+		};
+		AC27DDE623DF5A3F00116805 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				AC27DDE023DF549B00116805 /* MainTabbarController.swift */,
+				AC27DDE223DF59B900116805 /* PhotosCollectionViewController.swift */,
+				AC27DDE423DF5A1300116805 /* LikesCollectionViewController.swift */,
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -256,8 +270,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				AC27DDB123DF540200116805 /* AppDelegate.swift in Sources */,
+				AC27DDE523DF5A1300116805 /* LikesCollectionViewController.swift in Sources */,
 				AC27DDB323DF540200116805 /* SceneDelegate.swift in Sources */,
 				AC27DDE123DF549B00116805 /* MainTabbarController.swift in Sources */,
+				AC27DDE323DF59B900116805 /* PhotosCollectionViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
