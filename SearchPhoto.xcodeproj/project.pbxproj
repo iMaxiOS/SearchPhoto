@@ -103,11 +103,11 @@
 			children = (
 				AC27DDB023DF540200116805 /* AppDelegate.swift */,
 				AC27DDB223DF540200116805 /* SceneDelegate.swift */,
-				AC27DDEC23E02F5100116805 /* Service */,
-				AC27DDE923E02C1F00116805 /* Models */,
 				AC27DDE623DF5A3F00116805 /* Controllers */,
 				AC27DDE823E02BFC00116805 /* FetchManager */,
 				AC27DDE723E02BF000116805 /* Cells */,
+				AC27DDE923E02C1F00116805 /* Models */,
+				AC27DDEC23E02F5100116805 /* Service */,
 				AC27DDB923DF540500116805 /* Assets.xcassets */,
 				AC27DDBB23DF540500116805 /* LaunchScreen.storyboard */,
 				AC27DDBE23DF540500116805 /* Info.plist */,

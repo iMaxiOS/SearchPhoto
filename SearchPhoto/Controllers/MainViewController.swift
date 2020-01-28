@@ -11,6 +11,7 @@ import UIKit
 class MainViewController: UIViewController {
     
     private let tableView = UITableView()
+    private let networkService = NetworkService()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,7 +35,6 @@ class MainViewController: UIViewController {
 extension MainViewController {
     
     fileprivate func handleConstraints() {
-        
         view.addSubview(tableView)
         tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
@@ -43,12 +43,11 @@ extension MainViewController {
     }
     
     fileprivate func setupSearchBar() {
-        
         let seacrhController = UISearchController(searchResultsController: nil)
         navigationItem.searchController = seacrhController
 //        navigationItem.hidesSearchBarWhenScrolling = false
-//        seacrhController.hidesNavigationBarDuringPresentation = false
-//        seacrhController.obscuresBackgroundDuringPresentation = false
+        seacrhController.hidesNavigationBarDuringPresentation = false
+        seacrhController.obscuresBackgroundDuringPresentation = false
         seacrhController.searchBar.delegate = self
     }
 }
@@ -56,6 +55,16 @@ extension MainViewController {
 //MARK: - UISearchBarDelegate
 extension MainViewController: UISearchBarDelegate {
     
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
+        networkService.request(searchTerm: searchText) { (data, error) in
+            
+        }
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        print("Search Button")
+    }
 }
 
 //MARK: - UITabelViewDataSource
