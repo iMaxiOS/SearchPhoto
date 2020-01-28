@@ -23,13 +23,14 @@ class PhotoCell: UITableViewCell {
     private let category: UILabel = {
         let label = UILabel()
         label.text = "category:"
+        label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     public let searchTitle: UILabel = {
         let label = UILabel()
-        label.text = "cat"
+        label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -67,7 +68,7 @@ extension PhotoCell {
         category.widthAnchor.constraint(equalToConstant: 80).isActive = true
         
         searchTitle.centerYAnchor.constraint(equalTo: category.centerYAnchor).isActive = true
-        searchTitle.leadingAnchor.constraint(equalTo: category.trailingAnchor, constant: 5).isActive = true
+        searchTitle.leadingAnchor.constraint(equalTo: category.trailingAnchor).isActive = true
         searchTitle.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16).isActive = true
         
     }
