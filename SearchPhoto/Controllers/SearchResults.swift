@@ -8,6 +8,19 @@
 
 import Foundation
 
-struct SearchResults {
+// MARK: - Result
+struct SearchResults: Decodable {
+    let total: Int
+    let results: [UnsplashPhoto]
+}
+
+// MARK: - Photo
+struct UnsplashPhoto: Decodable {
+    let width, height: Int
+    let urls: [URLKing.RawValue: String]
     
+    
+    enum URLKing: String {
+        case raw, full, regular, small, thumb
+    }
 }

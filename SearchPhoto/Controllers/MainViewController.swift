@@ -7,11 +7,17 @@
 //
 
 import UIKit
+import RealmSwift
 
 class MainViewController: UIViewController {
     
-    private let tableView = UITableView()
-    private let networkService = NetworkService()
+    private let tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
+    }()
+    
+    private var searchText = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,15 +29,16 @@ class MainViewController: UIViewController {
     
     fileprivate func setup() {
         
-        navigationController?.navigationBar.topItem?.title = "Search Images"
+        navigationController?.navigationBar.topItem?.title = "Images"
         navigationController?.navigationBar.prefersLargeTitles = true
         
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.delegate = self
+        tableView.register(PhotoCell.self, forCellReuseIdentifier: PhotoCell.reuseID)
+        tableView.rowHeight = 90
         tableView.dataSource = self
     }
 }
 
+//MARK: - extension MainViewController
 extension MainViewController {
     
     fileprivate func handleConstraints() {
@@ -45,7 +52,6 @@ extension MainViewController {
     fileprivate func setupSearchBar() {
         let seacrhController = UISearchController(searchResultsController: nil)
         navigationItem.searchController = seacrhController
-//        navigationItem.hidesSearchBarWhenScrolling = false
         seacrhController.hidesNavigationBarDuringPresentation = false
         seacrhController.obscuresBackgroundDuringPresentation = false
         seacrhController.searchBar.delegate = self
@@ -56,14 +62,24 @@ extension MainViewController {
 extension MainViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        
-        networkService.request(searchTerm: searchText) { (data, error) in
-            
-        }
+        self.searchText = searchText
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        print("Search Button")
+        NetworkFetcher.shared.fetchImages(searchTerm: searchText) { [weak self] searchResults in
+            guard let result = searchResults?.results else { return }
+            let randomIndex = Int(arc4random_uniform(UInt32(result.count)))
+            let resultPhoto = result[randomIndex]
+            DispatchQueue.main.async {
+                let url = resultPhoto.urls["small"] ?? ""
+                let realm = try! Realm()
+                try? realm.write {
+                    realm.create(Photo.self, value: ["id" : "1", "url": url, "category": self?.searchText],
+                                 update: .modified)
+                }
+                self?.tableView.reloadData()
+            }
+        }
     }
 }
 
@@ -71,16 +87,23 @@ extension MainViewController: UISearchBarDelegate {
 extension MainViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        let realm = try! Realm()
+        return realm.objects(Photo.self).count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        return UITableViewCell()
+        let cell = tableView.dequeueReusableCell(withIdentifier: PhotoCell.reuseID, for: indexPath) as! PhotoCell
+        let realm = try! Realm()
+        let photo = realm.objects(Photo.self).first
+        let url = URL(string: photo?.url ?? "")
+        DispatchQueue.global().async {
+            if let url = url, let data = try? Data(contentsOf: url) {
+                DispatchQueue.main.async {
+                    cell.photoImageView.image = UIImage(data: data)
+                }
+            }
+        }
+        cell.searchTitle.text = photo?.category
+        return cell
     }
-}
-
-//MARK: - UITabelViewDelegate
-extension MainViewController: UITableViewDelegate {
-    
 }
