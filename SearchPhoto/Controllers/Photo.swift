@@ -13,6 +13,7 @@ final class Photo: Object {
     @objc dynamic public var url = ""
     @objc dynamic public var category = ""
     @objc dynamic public var date = Date()
+    @objc dynamic public var imageCache = Data()
     
     override static func primaryKey() -> String? {
         return "id"

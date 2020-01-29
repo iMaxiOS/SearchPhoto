@@ -18,9 +18,9 @@ class MainViewController: UIViewController {
     }()
     
     private var searchText = ""
-    fileprivate var isValidSearch = false
-    var photoList = [Photo]()
-    var searchPhoto: Photo?
+    private var isValidSearch = false
+    private var photoList = [Photo]()
+    private var searchPhoto: Photo?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,7 +31,6 @@ class MainViewController: UIViewController {
     }
     
     fileprivate func setup() {
-        
         navigationController?.navigationBar.topItem?.title = "Images"
         navigationController?.navigationBar.prefersLargeTitles = true
         
@@ -48,7 +47,6 @@ class MainViewController: UIViewController {
 extension MainViewController {
     
     fileprivate func handleConstraints() {
-        
         view.addSubview(tableView)
         tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
@@ -57,12 +55,10 @@ extension MainViewController {
     }
     
     fileprivate func setupSearchBar() {
-        
-        let seacrhController = UISearchController(searchResultsController: nil)
-        navigationItem.searchController = seacrhController
-        seacrhController.hidesNavigationBarDuringPresentation = false
-        seacrhController.obscuresBackgroundDuringPresentation = false
-        seacrhController.searchBar.delegate = self
+        let searchController = UISearchController(searchResultsController: nil)
+        navigationItem.searchController = searchController
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.delegate = self
     }
 }
 
@@ -88,7 +84,7 @@ extension MainViewController: UISearchBarDelegate {
                                                         preferredStyle: .alert)
                 alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
                     searchBar.becomeFirstResponder()
-//                    self?.tableView.reloadData()
+                    searchBar.searchTextField.text = ""
                 }))
                 self?.present(alertController, animated: true, completion: nil)
             } else {
@@ -122,29 +118,26 @@ extension MainViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: PhotoCell.reuseID, for: indexPath) as! PhotoCell
+        let realm = try! Realm()
+        
         if isValidSearch, let photo = searchPhoto {
+            cell.searchTitle.text = photo.category
             let url = URL(string: photo.url)
             DispatchQueue.global().async {
                 if let url = url, let data = try? Data(contentsOf: url) {
                     DispatchQueue.main.async {
+                        try? realm.write {
+                            photo.imageCache = data
+                        }
                         cell.photoImageView.image = UIImage(data: data)
                     }
                 }
             }
-            cell.searchTitle.text = photo.category
         } else {
             let photo = photoList[indexPath.row]
-            let url = URL(string: photo.url)
-            DispatchQueue.global().async {
-                if let url = url, let data = try? Data(contentsOf: url) {
-                    DispatchQueue.main.async {
-                        cell.photoImageView.image = UIImage(data: data)
-                    }
-                }
-            }
+            cell.photoImageView.image = UIImage(data: photo.imageCache)
             cell.searchTitle.text = photo.category
         }
-        
         return cell
     }
 }
